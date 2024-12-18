@@ -1,0 +1,38 @@
+
+/*================================================================*/
+/* ESTILOS QUE SOBRESCRIBEN LOS DE BOOTSTRAP*/
+/*================================================================*/
+
+/* !Important; consigue priorizar css sobre bootstrap */
+/*----------------------------------------------------------------*/
+/* para la barra de navegación */
+/*----------------------------------------------------------------*/
+.navbar {
+    background-color: #003366 !important; /* Fondo azul oscuro */
+}
+/*----------------------------------------------------------------*/
+/* Texto blanco */
+/*----------------------------------------------------------------*/
+.navbar .nav-link, .navbar-brand {
+    color: white !important; 
+}
+/*----------------------------------------------------------------*/
+/* Color más claro al pasar el ratón por encima */
+/*----------------------------------------------------------------*/
+.navbar .nav-link:hover {
+    color: #cce7ff !important; 
+}
+/*----------------------------------------------------------------*/
+/* Estilo para el fondo del footer */
+/*----------------------------------------------------------------*/
+footer.footer {
+    background-color: #808080 !important; /* Fondo gris */
+    color: white !important; /* Texto blanco para mayor contraste */
+}
+
+footer.footer .text-muted {
+    color: white !important; /* Asegura que los textos con la clase "text-muted" también sean blancos */
+
+text-align: right; /* Alinea el texto a la derecha */
+    padding-right: 20px; /* Añade un pequeño margen derecho opcional */
+}

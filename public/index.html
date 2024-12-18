@@ -1,0 +1,121 @@
+<!-- =============================================================================================================== -->
+<!-- Declaración del tipo de documento HTML5 -->
+<!-- =============================================================================================================== -->
+<!DOCTYPE html>
+<!-- Declaración del idioma -->
+<html lang="es">
+<!-- =============================================================================================================== -->
+<!-- CABECERA -->
+<!-- =============================================================================================================== -->
+<head>
+    <!-- Configuración codificación de caracteres a UTF-8 -->
+	<meta charset="UTF-8">
+     <!-- Vista adaptable a diferentes tamaños de pantalla (responsivo) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <!-- Título de la página que se mostrará en la pestaña del navegador -->
+    <title>Producto 1 - To Do List</title>
+	<!-- Añade el logo al título de la página que se mostrará en la pestaña del navegador -->
+    <link rel="icon" href="assets/images/logo.webp" type="image/webp">
+    <!-- Vinculación de Bootstrap CSS desde un CDN (Content Delivery Network) -->
+    <!-- Proporciona un diseño responsivo y componentes predefinidos de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Vinculación a hoja de estilos personalizada que permite sobreescribir estilos de Bootstrap -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<!-- =============================================================================================================== -->
+<!-- CUERPO .- CONTIENE LA BARRA DE NAVEGACIÓN -->
+<!-- =============================================================================================================== -->
+<body>
+    <header>
+        <!-- Barra de navegación con el componente "navbar" de Bootstrap -->
+		<!-- -------------------------------------------------------------------------------------------------------- -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            
+            <!-- Título o logo del sitio web que aparece en la barra de navegación -->
+			<!-- ---------------------------------------------------------------------------------------------------- -->
+				<a class="navbar-brand" href="#">
+					<!-- Añade el logo al título de la página en la barra de navegación -->
+					<image src="assets/images/logo.webp" alt="JSConnect Logo" width="75" height="75" class="d-inline-block align-top">
+				</a>
+            <!-- Botón para desplegar la barra de navegación en pantallas pequeñas -->
+			<!-- -------------------------------------------------------------------------------------------------------- -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Contenido colapsable de la barra de navegación con los enlaces a otras páginas -->
+			<!-- -------------------------------------------------------------------------------------------------------- -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Primer enlace del menú a la interfaz 1 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="interfaz1.html">Dashboard</a>
+                    </li>
+                    <!-- Segundo enlace del menú a la interfaz 2 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="interfaz2.html">Nueva tarea</a>
+                    </li>
+                    <!-- Tercer enlace del menú a la interfaz 3 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="interfaz3.html">Estado tareas</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+	
+	<!-- =============================================================================================================== -->
+    <!-- SECCION PRINCIPAL DEL CONTENIDO DE LA PAGINA -->
+	<!-- Bootstrap utiliza la clase `container` para centrar el contenido y `mt-5` para añadir un margen superior grande -->
+	<!-- =============================================================================================================== -->
+    <main class="container mt-5">
+        <!-- Título principal del dashboard de la aplicación -->
+        <h1>Dashboard de tareas</h1>
+        
+        <!-- Título y descripción adicional del proyecto -->
+        <h2>FP.066-(P) Desarrollo full stack con JavaScript y servicios web</h2>
+        <h2>Producto 1. Creando la parte visible de nuestra aplicación. FrontEnd</h2>
+        
+        <!-- Información sobre la consultora que supervisa el proyecto -->
+        <p>CONSULTORA: Gemma Piñol Soto</p>
+        
+        <!-- Lista de los autores del proyecto -->
+        <p>AUTOR: Grupo JSConnect</p>
+        <ul>
+            <li>Candela Puig</li>
+            <li>Argos Anton</li>
+            <li>Daniel Martínez</li>
+            <li>Héctor Jiménez</li>
+            <li>Víctor Martín</li>
+        </ul>
+   
+    </main>
+	<!-- =============================================================================================================== -->
+    <!-- PIE DE PAGINA -->
+	<!-- =============================================================================================================== -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <!-- Texto del pie de página -->
+            <span class="text-muted">Última actualización: Octubre 2024.</span>
+        </div>
+    </footer>
+	
+	<!-- =============================================================================================================== -->
+    <!-- CODIGO JAVASCRIPT -->
+	<!-- El código JS se añade al final del código HTML -->
+	<!-- =============================================================================================================== -->
+		
+    <!-- Carga de librerías JavaScript de jQuery, Popper.js y Bootstrap desde CDNs -->
+    <!-- jQuery es una librería de JavaScript que facilita el manejo del DOM y eventos -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Popper.js es necesario para que el dropdown de Bootstrap funcione correctamente -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS maneja la interactividad de componentes como modales, tooltips, y más -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- Referencia a un archivo JavaScript personalizado para añadir funcionalidades específicas -->
+    <script src="js/script.js"></script>
+	
+</body>
+</html>

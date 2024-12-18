@@ -1,0 +1,66 @@
+Listado de rutas de carpetas para el volumen OS
+El n£mero de serie del volumen es 0000007D 7CFD:2936
+C:\FP066-PRODUCTO2\APP
+|   estructura_y_contenido.txt
+|   
++---config
++---controllers
++---models
+|       Responsable.js
+|       Tarea.js
+|       
+\---routes
+----- C:\fp066-producto2\app\estructura_y_contenido.txt -----  
+Listado de rutas de carpetas para el volumen OS
+El n£mero de serie del volumen es 0000007D 7CFD:2936
+C:\FP066-PRODUCTO2\APP
+|   estructura_y_contenido.txt
+|   
++---config
++---controllers
++---models
+|       Responsable.js
+|       Tarea.js
+|       
+\---routes
+----- C:\fp066-producto2\app\estructura_y_contenido.txt -----  
+----- C:\fp066-producto2\app\models\Responsable.js -----  
+// Importar mongoose
+const mongoose = require('mongoose');
+
+// Esquema para el responsable
+const responsableSchema = new mongoose.Schema({
+  id_responsable: { type: String, required: true },  // Campo obligatorio
+  nombre_responsable: { type: String, required: true } // Campo obligatorio
+});
+
+// Crear el modelo Responsable a partir del esquema
+const Responsable = mongoose.model('Responsable', responsableSchema);
+
+// Exportar el modelo Responsable
+module.exports = Responsable;
+----- C:\fp066-producto2\app\models\Tarea.js -----  
+// Importar mongoose
+const mongoose = require('mongoose');
+
+// Importar el modelo Responsable
+const Responsable = require('./Responsable');  // Importamos el modelo Responsable
+
+// Esquema para la tarea
+const tareaSchema = new mongoose.Schema({
+  id_tarea: { type: String, required: true, unique: true }, // Campo Ãºnico y obligatorio
+  nombre_tarea: { type: String, required: true },          // Campo obligatorio
+  descripcion_tarea: { type: String, required: true },     // Campo obligatorio
+  fecha_tarea: { type: Date, required: true },             // Campo obligatorio
+  observaciones: { type: String },                         // Campo opcional
+  estado_tarea: { type: String, required: true },          // Campo obligatorio
+  
+  // Referencia al modelo Responsable usando ObjectId
+  responsable: { type: mongoose.Schema.Types.ObjectId, ref: 'Responsable' }
+});
+
+// Crear el modelo Tarea a partir del esquema
+const Tarea = mongoose.model('Tarea', tareaSchema);
+
+// Exportar el modelo Tarea
+module.exports = Tarea;

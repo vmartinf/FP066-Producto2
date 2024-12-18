@@ -1,0 +1,177 @@
+<!-- =============================================================================================================== -->
+<!-- Declaración del tipo de documento HTML5 -->
+<!-- =============================================================================================================== -->
+<!DOCTYPE html>
+<!-- Declaración del idioma -->
+<html lang="es">
+<!-- =============================================================================================================== -->
+<!-- CABECERA -->
+<!-- =============================================================================================================== -->
+<head>
+	<!-- Configuración codificación de caracteres a UTF-8 -->
+    <meta charset="UTF-8">
+	<!-- Vista adaptable a diferentes tamaños de pantalla (responsivo) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la página que se mostrará en la pestaña del navegador -->
+	<title>Dashboard</title>
+    <!-- Añade el logo al título de la página que se mostrará en la pestaña del navegador -->
+    <link rel="icon" href="assets/images/logo.webp" type="image/webp">
+	<!-- Vinculación de Bootstrap CSS desde un CDN (Content Delivery Network) -->
+	<!-- Proporciona un diseño responsivo y componentes predefinidos de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Vinculación a hoja de estilos personalizada que permite sobreescribir estilos de Bootstrap -->
+	<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<!-- =============================================================================================================== -->
+<!-- CUERPO .- CONTIENE LA BARRA DE NAVEGACIÓN -->
+<!-- =============================================================================================================== -->
+<body class="interfaz-2">
+    <header>
+        <!-- Barra de navegación con el componente "navbar" de Bootstrap -->
+		<!-- -------------------------------------------------------------------------------------------------------- -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            
+            <!-- Título o logo del sitio web que aparece en la barra de navegación -->
+			<!-- ---------------------------------------------------------------------------------------------------- -->
+				<a class="navbar-brand" href="#">
+					<!-- Añade el logo al título de la página en la barra de navegación -->
+					<image src="assets/images/logo.webp" alt="JSConnect Logo" width="75" height="75" class="d-inline-block align-top">
+				</a>
+            <!-- Botón para desplegar la barra de navegación en pantallas pequeñas -->
+			<!-- -------------------------------------------------------------------------------------------------------- -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Contenido colapsable de la barra de navegación con los enlaces a otras páginas -->
+			<!-- -------------------------------------------------------------------------------------------------------- -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Primer enlace del menú a la interfaz 1 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <!-- Segundo enlace del menú a la interfaz 2 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="interfaz1.html">Dashboard</a>
+                    </li>
+                    <!-- Tercer enlace del menú a la interfaz 3 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="interfaz3.html">Estado tareas</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+<!-- =============================================================================================================== -->
+    <!-- SECCION PRINCIPAL DEL CONTENIDO DE LA PAGINA -->
+	<!-- Bootstrap utiliza la clase `container` para centrar el contenido y `mt-5` para añadir un margen superior grande -->
+	<!-- =============================================================================================================== -->
+    <main class="container mt-5">
+        <h1 class="bg-primary text-white p-3">Crear una nueva tarea</h1>
+        
+        <!-- Formulario para crear una nueva tarjeta -->
+        <div class="container mt-5">
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="titulo">Título de la tarea</label>
+                    <input type="text" class="form-control" id="titulo" placeholder="Introduce el título de la tarea">
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea class="form-control" id="descripcion" rows="3" placeholder="Descripción de la tarea"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="prioridad">Prioridad</label>
+                    <select class="form-control" id="prioridad">
+                        <option>Alta</option>
+                        <option>Media</option>
+                        <option>Baja</option>
+                    </select>
+                </div>
+                <button id="crearTareaBtn" type="button" class="btn btn-primary">Crear tarea</button>
+            </form>
+            
+        </div>
+    </main>
+
+    <!-- =============================================================================================================== -->
+    <!-- PIE DE PAGINA -->
+	<!-- =============================================================================================================== -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <!-- Texto del pie de página -->
+            <span class="text-muted">Última actualización: Octubre 2024.</span>
+        </div>
+    </footer>
+
+    <!-- =============================================================================================================== -->
+    <!-- CODIGO JAVASCRIPT -->
+    <!-- El código JS se añade al final del código HTML -->
+    <!-- =============================================================================================================== -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- =============================================================================================================== -->
+    <!-- CODIGO ADPATADO A USO DE BBDD EN LURGAR DE LOCALSTORAGE INCIAL -->
+    <!-- El código JS se añade al final del código HTML -->
+    <!-- =============================================================================================================== -->
+
+
+    <!-- Dependencia librería propia JavaScript -->
+     <!-- <script src="js/script.js"></script> --> 
+     <script>
+        // Función que se ejecuta cuando se hace clic en el botón "Crear tarea"
+        document.getElementById('crearTareaBtn').addEventListener('click', function() {
+            // Obtención de los datos del formulario
+            const titulo = document.getElementById('titulo').value;
+            const descripcion = document.getElementById('descripcion').value;
+            const prioridad = document.getElementById('prioridad').value;
+
+            // Validación de los datos
+            if (!titulo || !descripcion || !prioridad) {
+                alert("Todos los campos son obligatorios");
+                return;
+            }
+
+            // Preparar la consulta GraphQL para crear una nueva tarea
+            const query = `
+                mutation {
+                    agregarTarea(id_tarea: "${new Date().getTime()}", nombre_tarea: "${titulo}", descripcion_tarea: "${descripcion}", fecha_tarea: "${new Date().toISOString()}", estado_tarea: "Pendiente") {
+                        id_tarea
+                        nombre_tarea
+                        descripcion_tarea
+                    }
+                }
+            `;
+
+            // Enviar la solicitud al servidor GraphQL
+            fetch('http://localhost:4000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.errors) {
+                    alert("Hubo un error al crear la tarea");
+                } else {
+                    alert("Tarea creada exitosamente");
+                    // Opcionalmente, redirigir a otra página o actualizar la vista
+                    window.location.href = 'interfaz1.html';
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Hubo un error al conectar con el servidor");
+            });
+        });
+    </script>  
+
+</body>
+</html>

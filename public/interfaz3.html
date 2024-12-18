@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Configuración codificación de caracteres a UTF-8 -->
+    <meta charset="UTF-8">
+    <!-- Vista adaptable a diferentes tamaños de pantalla (responsivo) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la página que se mostrará en la pestaña del navegador -->
+    <title>Dashboard</title>
+    <!-- Añade el logo al título de la página que se mostrará en la pestaña del navegador -->
+    <link rel="icon" href="assets/images/logo.webp" type="image/webp">
+    <!-- Vinculación de Bootstrap CSS desde un CDN (Content Delivery Network) -->
+    <!-- Proporciona un diseño responsivo y componentes predefinidos de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Vinculación a hoja de estilos personalizada que permite sobreescribir estilos de Bootstrap -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="interfaz-3">
+
+    <header>
+        <!-- Barra de navegación con el componente "navbar" de Bootstrap -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <!-- Título o logo del sitio web que aparece en la barra de navegación -->
+            <a class="navbar-brand" href="#">
+                <image src="assets/images/logo.webp" alt="JSConnect Logo" width="75" height="75" class="d-inline-block align-top">
+            </a>
+            <!-- Botón para desplegar la barra de navegación en pantallas pequeñas -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Contenido colapsable de la barra de navegación con los enlaces a otras páginas -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="interfaz1.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="interfaz2.html">Nueva tarea</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mt-5">
+        <h1 class="bg-primary text-white p-3">Interfaz 3 - Mostrar tareas</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="text-center">Pendientes de generar</h3>
+                <div class="column" id="pendientes">
+                    <!-- Las tarjetas pendientes se cargarán aquí -->
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-center">Generados</h3>
+                <div class="column" id="generados">
+                    <!-- Las tarjetas generadas se cargarán aquí -->
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-center">Finalizados</h3>
+                <div class="column" id="finalizados">
+                    <!-- Las tarjetas finalizadas se cargarán aquí -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">Última actualización: Octubre 2024.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Comentamos el script actual para evitar su ejecución -->
+    <!--
+    <script>
+        // Código anterior para arrastrar y soltar
+    </script>
+    -->
+
+    <!-- Nuevo código para solo mostrar las tarjetas, independientemente de su estado -->
+    <script>
+        // Función para cargar todas las tareas y mostrarlas en la interfaz
+        function cargarTareas() {
+            fetch('http://localhost:4000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `query {
+                        tareas {
+                            id_tarea
+                            nombre_tarea
+                            estado_tarea
+                        }
+                    }`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tareas = data.data.tareas;
+                tareas.forEach(tarea => {
+                    const cardHtml = `
+                        <div class="card" id="tarjeta-${tarea.id_tarea}">
+                            <div class="card-header">
+                                ${tarea.nombre_tarea}
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Estado:</strong> ${tarea.estado_tarea}</p>
+                            </div>
+                        </div>
+                    `;
+
+                    // Insertar las tarjetas en la columna correspondiente
+                    // No importa el estado, las insertamos en la columna "Pendientes de generar"
+                    const column = document.getElementById('pendientes');
+                    column.insertAdjacentHTML('beforeend', cardHtml);
+                });
+            })
+            .catch(error => {
+                console.error("Error al cargar tareas:", error);
+            });
+        }
+
+        // Llamar a la función para cargar tareas cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', cargarTareas);
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,276 @@
+<!-- =============================================================================================================== -->
+<!-- Declaración del tipo de documento HTML5 -->
+<!-- =============================================================================================================== -->
+<!DOCTYPE html>
+<!-- Declaración del idioma -->
+<html lang="es">
+<!-- =============================================================================================================== -->
+<!-- CABECERA -->
+<!-- =============================================================================================================== -->
+<head>
+	<!-- Configuración codificación de caracteres a UTF-8 -->
+    <meta charset="UTF-8">
+	<!-- Vista adaptable a diferentes tamaños de pantalla (responsivo) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la página que se mostrará en la pestaña del navegador -->
+	<title>Dashboard</title>
+    <!-- Añade el logo al título de la página que se mostrará en la pestaña del navegador -->
+    <link rel="icon" href="assets/images/logo.webp" type="image/webp">
+	<!-- Vinculación de Bootstrap CSS desde un CDN (Content Delivery Network) -->
+	<!-- Proporciona un diseño responsivo y componentes predefinidos de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Vinculación a hoja de estilos personalizada que permite sobreescribir estilos de Bootstrap -->
+	<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<!-- =============================================================================================================== -->
+<!-- CUERPO .- CONTIENE LA BARRA DE NAVEGACIÓN -->
+<!-- =============================================================================================================== -->
+<body class="interfaz-1">
+    <header>
+        <!-- Barra de navegación con el componente "navbar" de Bootstrap -->
+		<!-- -------------------------------------------------------------------------------------------------------- -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            
+            <!-- Título o logo del sitio web que aparece en la barra de navegación -->
+			<!-- ---------------------------------------------------------------------------------------------------- -->
+				<a class="navbar-brand" href="#">
+					<!-- Añade el logo al título de la página en la barra de navegación -->
+					<image src="assets/images/logo.webp" alt="JSConnect Logo" width="75" height="75" class="d-inline-block align-top">
+				</a>
+            <!-- Botón para desplegar la barra de navegación en pantallas pequeñas -->
+			<!-- -------------------------------------------------------------------------------------------------------- -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Contenido colapsable de la barra de navegación con los enlaces a otras páginas -->
+			<!-- -------------------------------------------------------------------------------------------------------- -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Primer enlace del menú a la interfaz 1 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <!-- Segundo enlace del menú a la interfaz 2 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="interfaz2.html">Nueva tarea</a>
+                    </li>
+                    <!-- Tercer enlace del menú a la interfaz 3 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="interfaz3.html">Estado tareas</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+	
+	<!-- =============================================================================================================== -->
+    <!-- SECCION PRINCIPAL DEL CONTENIDO DE LA PAGINA -->
+	<!-- Bootstrap utiliza la clase `container` para centrar el contenido y `mt-5` para añadir un margen superior grande -->
+	<!-- =============================================================================================================== -->
+
+    <main class="container mt-5">
+        <h1 class="bg-primary text-white p-3">Interfaz 1 - Dashboard</h1>
+        <h2 class="text-primary">Tareas guardadas</h2>
+
+        <div class="container mt-5">
+            <div class="row" id="cardContainer">
+                <!-- Aquí se mostrarán las tarjetas cargadas desde LocalStorage -->
+            </div>
+        </div>
+    </main>
+
+    <!-- =============================================================================================================== -->
+    <!-- PIE DE PAGINA -->
+	<!-- =============================================================================================================== -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <!-- Texto del pie de página -->
+            <span class="text-muted">Última actualización: Octubre 2024.</span>
+        </div>
+    </footer>
+
+    <!-- =============================================================================================================== -->
+    <!-- CODIGO JAVASCRIPT -->
+	<!-- El código JS se añade al final del código HTML -->
+	<!-- =============================================================================================================== -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    
+    <script> 
+    // ===============================================================================================================
+    // CODIGO ANTERIOR QUE ALMACENABA EN LOCALSTORAGE -->
+	// ===============================================================================================================
+        
+    /*
+        // Recuperar tarjetas desde LocalStorage y mostrarlas
+        document.addEventListener('DOMContentLoaded', function() {
+            var tarjetas = JSON.parse(localStorage.getItem('tarjetas')) || [];
+            var cardContainer = document.getElementById('cardContainer');
+
+            // Recorrer las tarjetas y añadirlas al DOM
+            tarjetas.forEach(function(tarjeta, index) {
+                var cardHtml = `
+                    <div class="col-md-4 mt-4" id="tarjeta-${index}">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                ${tarjeta.titulo}
+                            </div>
+                            <div class="card-body">
+                                <p>${tarjeta.descripcion}</p>
+                                <p><strong>Prioridad: </strong>${tarjeta.prioridad}</p>
+                                <!-- Botón para eliminar la tarjeta -->
+                                
+                                <button class="btn btn-danger" onclick="eliminarTarjeta(${index})">Eliminar tarjeta</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                cardContainer.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        });
+
+        // Función para eliminar una tarjeta del DOM y del LocalStorage
+        function eliminarTarjeta(index) {
+            // Eliminar la tarjeta del DOM
+            var tarjeta = document.getElementById(`tarjeta-${index}`);
+            tarjeta.remove();
+
+            // Recuperar las tarjetas desde LocalStorage
+            var tarjetas = JSON.parse(localStorage.getItem('tarjetas')) || [];
+
+            // Eliminar la tarjeta correspondiente del array
+            tarjetas.splice(index, 1);
+
+            // Actualizar el LocalStorage con el array actualizado
+            localStorage.setItem('tarjetas', JSON.stringify(tarjetas));
+
+            // Actualizar la interfaz después de eliminar la tarjeta
+            console.log(`Tarjeta ${index} eliminada`);
+        }*/
+    
+    // ===============================================================================================================
+    // CODIGO NUEVO QUE ALMACENA EN BBDD -->
+	// ===============================================================================================================
+
+        // ========================================================================
+        // Recuperar tareas desde el servidor y mostrarlas en el dashboard
+        // ========================================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener las tareas desde la API de GraphQL
+            fetch('http://localhost:4000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: `{
+                        tareas {
+                            id_tarea
+                            nombre_tarea
+                            descripcion_tarea
+                            estado_tarea
+                        }
+                    }`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tareas = data.data.tareas;
+                const cardContainer = document.getElementById('cardContainer');
+                
+                // Limpiar el contenedor antes de añadir las tareas
+                cardContainer.innerHTML = '';
+    
+                // Recorrer las tareas y crear las tarjetas para cada tarea
+                tareas.forEach(function(tarea) {
+                    var cardHtml = `
+                        <div class="col-md-4 mt-4" id="tarjeta-${tarea.id_tarea}">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    ${tarea.nombre_tarea}
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Descripción: </strong>${tarea.descripcion_tarea}</p>
+                                    <p><strong>Estado: </strong>${tarea.estado_tarea}</p>
+                                    <button class="btn btn-danger" onclick="eliminarTarea('${tarea.id_tarea}')">Eliminar tarea</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    cardContainer.insertAdjacentHTML('beforeend', cardHtml);
+                });
+            })
+            .catch(error => console.error('Error fetching tasks:', error));
+        });
+    
+        // ========================================================================
+        // Eliminar tarea: función para eliminar una tarea del servidor y actualizar el DOM
+        // ========================================================================
+        function eliminarTarea(id_tarea) {
+            fetch('http://localhost:4000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: `mutation {
+                        eliminarTarea(id_tarea: "${id_tarea}") {
+                            id_tarea
+                        }
+                    }`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Eliminar la tarjeta correspondiente del DOM
+                const tareaElement = document.getElementById(`tarjeta-${id_tarea}`);
+                if (tareaElement) {
+                    tareaElement.remove();
+                }
+                console.log(`Tarea con id ${id_tarea} eliminada.`);
+            })
+            .catch(error => console.error('Error deleting task:', error));
+        }
+    
+        // ========================================================================
+        // Agregar tarea: función para agregar una nueva tarea al servidor
+        // ========================================================================
+        function agregarTarea(tarea) {
+            fetch('http://localhost:4000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: `mutation {
+                        agregarTarea(
+                            id_tarea: "${tarea.id_tarea}",
+                            nombre_tarea: "${tarea.nombre_tarea}",
+                            descripcion_tarea: "${tarea.descripcion_tarea}",
+                            fecha_tarea: "${tarea.fecha_tarea}",
+                            estado_tarea: "${tarea.estado_tarea}"
+                        ) {
+                            id_tarea
+                            nombre_tarea
+                        }
+                    }`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Tarea agregada', data);
+                // Refrescar la lista de tareas después de agregar una nueva
+                location.reload();
+            })
+            .catch(error => console.error('Error adding task:', error));
+        }
+    </script>
+    
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+Listado de rutas de carpetas para el volumen OS
+El nero de serie del volumen es 000000A2 7CFD:2936
+C:\FP066-PRODUCTO2\APP
+|   estructura_y_contenido.txt
+|   
++---config
++---controllers
+|       tareaController.js
+|       
++---models
+|       Responsable.js
+|       Tarea.js
+|       
+\---routes
+        tareaRoutes.js
+        
+----- C:\fp066-producto2\app\estructura_y_contenido.txt -----  
+Listado de rutas de carpetas para el volumen OS
+El nero de serie del volumen es 000000A2 7CFD:2936
+C:\FP066-PRODUCTO2\APP
+|   estructura_y_contenido.txt
+|   
++---config
++---controllers
+|       tareaController.js
+|       
++---models
+|       Responsable.js
+|       Tarea.js
+|       
+\---routes
+        tareaRoutes.js
+        
+----- C:\fp066-producto2\app\estructura_y_contenido.txt -----  
+----- C:\fp066-producto2\app\controllers\tareaController.js -----  
+//Este archivo maneja las operaciones CRUD para las tareas. Contiene la l贸gica para interacutar con la BBDD
+
+const Tarea = require('../models/tarea');  // Importa el modelo Tarea
+const Responsable = require('../models/responsable'); // Importa el modelo Responsable
+
+// Obtener todas las tareas
+exports.getTareas = async (req, res) => {
+  try {
+    const tareas = await Tarea.find();  // Obtener todas las tareas de la base de datos
+    res.json(tareas);
+  } catch (err) {
+    res.status(500).send('Error al obtener las tareas');
+  }
+};
+
+// Obtener una tarea espec铆fica por id
+exports.getTareaById = async (req, res) => {
+  try {
+    const tarea = await Tarea.findOne({ id_tarea: req.params.id_tarea });  // Buscar tarea por id
+    if (!tarea) {
+      return res.status(404).send('Tarea no encontrada');
+    }
+    res.json(tarea);
+  } catch (err) {
+    res.status(500).send('Error al obtener la tarea');
+  }
+};
+
+// Crear una nueva tarea
+exports.createTarea = async (req, res) => {
+  try {
+    const nuevaTarea = new Tarea(req.body);
+    await nuevaTarea.save();  // Guardar la nueva tarea en la base de datos
+    res.status(201).json(nuevaTarea);
+  } catch (err) {
+    res.status(400).send('Error al crear la tarea');
+  }
+};
+
+// Actualizar una tarea existente
+exports.updateTarea = async (req, res) => {
+  try {
+    const tareaActualizada = await Tarea.findOneAndUpdate({ id_tarea: req.params.id_tarea }, req.body, { new: true });
+    if (!tareaActualizada) {
+      return res.status(404).send('Tarea no encontrada');
+    }
+    res.json(tareaActualizada);
+  } catch (err) {
+    res.status(400).send('Error al actualizar la tarea');
+  }
+};
+
+// Eliminar una tarea
+exports.deleteTarea = async (req, res) => {
+  try {
+    const tareaEliminada = await Tarea.findOneAndDelete({ id_tarea: req.params.id_tarea });
+    if (!tareaEliminada) {
+      return res.status(404).send('Tarea no encontrada');
+    }
+    res.json({ message: 'Tarea eliminada con 茅xito' });
+  } catch (err) {
+    res.status(400).send('Error al eliminar la tarea');
+  }
+};
+----- C:\fp066-producto2\app\models\Responsable.js -----  
+// Importar mongoose
+const mongoose = require('mongoose');
+
+// Esquema para el responsable
+const responsableSchema = new mongoose.Schema({
+  id_responsable: { type: String, required: true }, // Campo obligatorio
+  nombre_responsable: { type: String, required: true } // Campo obligatorio
+});
+
+// Crear el modelo Responsable a partir del esquema
+const Responsable = mongoose.model('Responsable', responsableSchema);
+
+// Exportar el modelo Responsable
+module.exports = Responsable;
+----- C:\fp066-producto2\app\models\Tarea.js -----  
+// Importar mongoose
+const mongoose = require('mongoose');
+
+// Importar el modelo Responsable
+const Responsable = require('./responsable');  
+
+// Esquema para la tarea
+const tareaSchema = new mongoose.Schema({
+  id_tarea: { type: String, required: true, unique: true }, // Campo 煤nico y obligatorio
+  nombre_tarea: { type: String, required: true },          // Campo obligatorio
+  descripcion_tarea: { type: String, required: true },     // Campo obligatorio
+  fecha_tarea: { type: Date, required: true },             // Campo obligatorio
+  observaciones: { type: String },                         // Campo opcional
+  estado_tarea: { type: String, required: true },          // Campo obligatorio
+  
+  // Referencia al modelo Responsable usando ObjectId
+  responsable: { type: mongoose.Schema.Types.ObjectId, ref: 'Responsable' }
+});
+
+// Crear el modelo Tarea a partir del esquema
+const Tarea = mongoose.model('Tarea', tareaSchema);
+
+// Exportar el modelo Tarea
+module.exports = Tarea;
+----- C:\fp066-producto2\app\routes\tareaRoutes.js -----  
+// Importaci贸n de dependencias
+const express = require('express'); // m贸dulo que es un framework de Node.js para crear Webs y APIs
+const router = express.Router(); // Creaci贸n de router de Express. Permite definir rutas de forma modular y organizada
+const tareaController = require('../controllers/tareaController'); // Importar el controlador de tareas
+
+// Definir las rutas para las operaciones CRUD de tareas
+router.get('/tareas', tareaController.getTareas);  // Obtener todas las tareas
+router.get('/tareas/:id_tarea', tareaController.getTareaById);  // Obtener una tarea espec铆fica
+router.post('/tareas', tareaController.createTarea);  // Crear una nueva tarea
+router.put('/tareas/:id_tarea', tareaController.updateTarea);  // Actualizar una tarea existente
+router.delete('/tareas/:id_tarea', tareaController.deleteTarea);  // Eliminar una tarea
+
+module.exports = router;
